@@ -6,7 +6,15 @@ document.getElementById('userForm').addEventListener('submit', function (event) 
     var category = document.getElementById('category').value;
     var interests = Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(i => i.value);
     var photo = document.getElementById('photo').files[0];
+    var sum = document.getElementById('Summa').value;
+    var proc = documen.getElementById('Stavka').value;
+    var srok = document.getElementById('Srok').value;
+    var vznos = document.getElementById('Fvznos').value;
+    var sbor = document.getElementById('Sbor').value;
+    var date = document.getElementById('DatePlat').value;
 
+    var a = sum*(proc/(1+proc)-srok-1);
+    
     var today = new Date();
     var age = today.getFullYear() - birthday.getFullYear();
     var m = today.getMonth() - birthday.getMonth();
