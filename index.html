@@ -1,7 +1,56 @@
 <!DOCTYPE html>
 <html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+  <head>
+    <title>Лабораторная работа №4</title>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <h3>Калькулятор ежемесячного платежа по кредиту</h3>
+    <form id="userForm">
+      <label for="name">ФИО:</label><br />
+      <input type="text" id="name" name="name" /><br />
+      <label for="birthday">Дата рождения:</label><br />
+      <input type="date" id="birthday" name="birthday" /><br />
+      <label for="category">Категория(уровень заработка):</label><br />
+      <select id="category" name="category">
+        <option value="Low">~МРОТ</option>
+        <option value="Medium">Средний класс</option>
+        <option value="High">Высший класс</option></select
+      ><br />
+      <label for="interests">Сфера деятельности:</label><br />
+      <input
+        type="checkbox"
+        id="interest1"
+        name="Сельское хозяйство"
+        value="Interest1"
+      />
+      <label for="interest1"> Сельское хозяйство</label><br />
+      <input
+        type="checkbox"
+        id="interest2"
+        name="Информационные технологии"
+        value="Interest2"
+      />
+      <label for="interest2"> Информационные технологии</label><br />
+      <input
+        type="checkbox"
+        id="interest3"
+        name="Сфера услуг"
+        value="Interest3"
+      />
+      <label for="interest3"> Сфера услуг</label><br />
+      <label for="photo">Фото:</label><br />
+      <input type="file" id="photo" name="photo" /><br />
+      <input type="submit" value="Отправить" />
+
+      <label for="Summa">Сумма займа:</label><br />
+      <input type="number" id="Summa" name="Summa" /><br />
+      <label for="Stavka">Процентная ставка:</label><br />
+      <input type="number" id="Stavka" name="Stavka" /><br />
+    </form>
+    <script src="script.js"></script>
+    <div id="output"></div>
+  </body>
 </html>
