@@ -6,15 +6,12 @@ document.getElementById('userForm').addEventListener('submit', function (event) 
     var category = document.getElementById('category').value;
     var interests = Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(i => i.value);
     var photo = document.getElementById('photo').files[0];
-   // var sum = document.getElementById('Summa').value;
-    //var proc = document.getElementById('Stavka').value*0.01
-    //var srok = document.getElementById('Srok').value;
+    var sum = document.getElementById('Summa').value;
+    var proc = document.getElementById('Stavka').value*1;
+    var srok = document.getElementById('Srok').value;
     var vznos = document.getElementById('Fvznos').value*1;
     var sbor = document.getElementById('Sbor').value;
-    var sum = 1700000; 
-    var proc = 10; 
-    var srok =18;
-
+    
 
 
     function monthDiff(d1, d2) {
