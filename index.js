@@ -6,70 +6,69 @@ document.getElementById('userForm').addEventListener('submit', function (event) 
     var category = document.getElementById('category').value;
     var interests = Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(i => i.value);
     var photo = document.getElementById('photo').files[0];
-    var sum = document.getElementById('Summa').value;
-    var proc = documen.getElementById('Stavka').value;
-    var srok = document.getElementById('Srok').value;
-    var vznos = document.getElementById('Fvznos').value;
+   // var sum = document.getElementById('Summa').value;
+    //var proc = document.getElementById('Stavka').value*0.01
+    //var srok = document.getElementById('Srok').value;
+    var vznos = document.getElementById('Fvznos').value*1;
     var sbor = document.getElementById('Sbor').value;
-    var date = document.getElementById('DatePlat').value;
+    var sum = 1700000; 
+    var proc = 10; 
+    var srok =18;
 
-    var a = sum*(proc/(1+proc)-srok-1);
+
+
+    function monthDiff(d1, d2) {
+        var months;
+        months = (d2.getFullYear() - d1.getFullYear()) * 12;
+        months -= d1.getMonth();
+        months += d2.getMonth();
+        return months <= 0 ? 0 : months;
+    }
+    function calculateAnnuityPayment(K, p, n) {
+        p = p / 100 / 12; // Перевод процентной ставки в месячную
+        let A = K * p / (1 - Math.pow((1 + p), -n));
+        return A.toFixed(2);
+    }
+
+    function calculateDifferentialPayment(S, p, n) {
+        p = p / 100 / 12; // Перевод процентной ставки в месячную
+        let Dm = S * p / (1 - Math.pow((1 + p), -n));
+        return Dm;
+    }
+    function bigsumD (S, p, n, vznos){
+        var k = S ;
+        let i ;
+        sum1=1;
+        for (i=1; i<n; i++){
+            var kk = calculateDifferentialPayment(k, p, n);
+            sum1 = sum1 + kk;
+            k -= kk;
+        }
+        return (sum1+vznos)*1.4;
+    }
+
     
+    var a =calculateAnnuityPayment(sum, proc, srok);
     var today = new Date();
-    var age = today.getFullYear() - birthday.getFullYear();
-    var m = today.getMonth() - birthday.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
-        age--;
+    var first = new Date(document.getElementById('DatePlat').value);
+    var dif = monthDiff(first, today);
+    var si = sum/srok;
+    var sumost = (srok-dif)*si;
+ 
+
+    var dp = calculateDifferentialPayment(sumost, proc, srok);
+
+    var bigsumA = srok*a;
+    var bigsumDd = bigsumD(sum, proc, srok, vznos);
+    if(bigsumA>bigsumDd){
+        var res = 'Дифференциальны платежи выгоднее';
     }
-
-    var days = Math.floor((today - birthday) / (1000 * 60 * 60 * 24));
-    const b = days.toString();
-    var next3zadanie = (Number(b[0]) + 1) * Math.pow(10, b.length - 1);
-    var next4zadanie = (Number(b[0] + b[1]) + 1) * Math.pow(10, b.length - 2);
-    var nextPowerOfTen = Math.pow(10, Math.ceil(Math.log10(days)));
-    var nextZeroes = Math.pow(10, days.toString().length);
-    var nextTwoZeroes = Math.pow(10, days.toString().length - 2);
-
-    var nextSameDigits = parseInt(days.toString().charAt(0).repeat(days.toString().length));
-
-    if (Number(b[0]) < Number(b[1])) {
-        nextSameDigits = parseInt(nextSameDigits.toString().split('').map(Number).map(n => n + 1).join(''));
+    else {
+        var res = 'Аннуитетные платежи выгоднее';
     }
-
-    console.log(Number(b[0]));
-
-    var nextPowerOfTwo = Math.pow(2, Math.ceil(Math.log2(days)));
-
-    var anniversary10000 = new Date(birthday);
-    anniversary10000.setFullYear(birthday.getFullYear() + Math.ceil(10000 / 365));
-
-    var anniversary5555 = new Date(birthday);
-    anniversary5555.setFullYear(birthday.getFullYear() + Math.ceil(5555 / 365));
-
-    var daysUntil10000 = Math.ceil((anniversary10000 - today) / (1000 * 60 * 60 * 24));
-    var daysUntil5555 = Math.ceil((anniversary5555 - today) / (1000 * 60 * 60 * 24));
-
-    var output = 'Дата рождения: ' + birthday.toDateString() + '<br>' +
-        'Текущая дата: ' + today.toDateString() + '<br>';
-
-    output += 'ФИО: ' + name + '<br>' +
-        'Возраст: ' + age + '<br>' +
-        'Категория: ' + category + '<br>' +
-        'Интересы: ' + interests.join(', ') + '<br>' +
-        'Фото: <img src="' + URL.createObjectURL(photo) + '" alt="Photo" /><br>' +
-        'Количество дней: ' + days + '<br>';
-    if (daysUntil10000 >= 0) {
-        output += 'Ближайший юбилей 10000 дней: ' + anniversary10000.toDateString() + ' (' + (10000 - days) + ' дней до)' + '<br>';
-    }
-
-    if (daysUntil5555 >= 0) {
-        output += 'Ближайший юбилей 5555 дней: ' + anniversary5555.toDateString() + ' (' + (5555 - days) + ' дней до)';
-    }
-    output += 'Следующее число дней в следующую степень 10: ' + nextPowerOfTen + ', еще осталось дней: ' + (nextPowerOfTen - days) + '<br>' +
-        'Следующее число дней с нулями везде кроме последней цифры: ' + next3zadanie + ', еще осталось дней: ' + (next3zadanie - days) + '<br>' +
-        'Следующее число дней с нулями везде кроме двух последних цифр: ' + next4zadanie + ', еще осталось дней: ' + (next4zadanie - days) + '<br>' +
-        'Следующее число дней со всеми одинаковыми цифрами: ' + nextSameDigits + ', еще осталось дней: ' + (nextSameDigits - days) + '<br>' +
-        'Следующее число дней в следующую степень двойки: ' + nextPowerOfTwo + ', еще осталось дней: ' + (nextPowerOfTwo - days);
+    
+    var output = 'Расчет выплат по кредиту </br>А) аннуитентный платеж А =  '+ a + ', Обшая сумма = ' + bigsumA
+    + '</br>' + 'Б) Дифференциальный платеж ДП = '+dp.toFixed(2) + ', общая сумма = ' +  bigsumDd.toFixed(2) + '</br> '+ res;
 
     document.getElementById('output').innerHTML = output;
 });
