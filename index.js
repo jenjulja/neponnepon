@@ -67,5 +67,8 @@ document.getElementById('userForm').addEventListener('submit', function (event) 
     var output = 'Расчет выплат по кредиту </br>А) аннуитентный платеж А =  '+ a + ', Обшая сумма = ' + bigsumA
     + '</br>' + 'Б) Дифференциальный платеж ДП = '+dp.toFixed(2) + ', общая сумма = ' +  bigsumDd.toFixed(2) + '</br> '+ res;
 
+    output += '</br>ФИО:'+ name + '</br> Дата рождения ' + birthday.toDateString() +
+    '</br>Категория (уровень заработка) ' + '</br>Фото <img src="'+URL.createObjectURL(photo)+'" alt="Photo"/></br>' +
+    'Сферы деятельности' + interests.join(', ')+'</br>';
     document.getElementById('output').innerHTML = output;
 });
